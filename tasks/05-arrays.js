@@ -11,7 +11,7 @@
 // flatten([[true, false], [false, false]]) ➞ []
 //   Expected: [true, false, false, false]
 function flatten(arr) {
-  throw new Error('Not implemented');
+  return arr[0].concat(arr[1]);
 }
 
 // Given an array of women and an array of men, either:
@@ -27,7 +27,12 @@ function flatten(arr) {
 //  zipIt(["Ana", "Amy", "Lisa"], ["Bob", "Josh", "Tim"])
 //    ➞ [["Ana", "Bob"], ["Amy", "Josh"],["Lisa", "Tim"]]
 function zipIt(womenArr, menArr) {
-  throw new Error('Not implemented');
+  if(womenArr.length !== menArr.length) return "sizes don't match";
+  const arr = [];
+  for(let i=0; i<womenArr.length ; i++){
+    arr.push([womenArr[i], menArr[i]]);
+  }
+  return arr;
 }
 
 // Create a function that takes an array of items, removes all duplicate items and returns a new
@@ -37,7 +42,7 @@ function zipIt(womenArr, menArr) {
 //  removeDups(["The", "big", "cat"]) ➞ ["The", "big", "cat"]
 //  removeDups(["John", "Taylor", "John"]) ➞ ["John", "Taylor"]
 function removeDups(arr) {
-  throw new Error('Not implemented');
+  return [...new Set(arr)];
 }
 
 // Given an array containing an array containing an array containing... an array containing nothing.
@@ -50,7 +55,15 @@ function removeDups(arr) {
 // Notes
 //  For a bonus challenge, try to find a solution without recursion.
 function measureDepth(arr) {
-  throw new Error('Not implemented');
+  let i = 0;
+  while(arr.length){
+    i++;
+    arr = arr.reduce( (level, el) => {
+      if(Array.isArray(el)) level.push(...el);
+      return level;
+    }, []);
+  }
+  return i+1;
 }
 
 // Create a function that takes an array of numbers and returns the sum of the two lowest positive numbers.
@@ -64,7 +77,8 @@ function measureDepth(arr) {
 //  Don't count negative numbers.
 //  Floats and empty arrays will not be used in any of the test cases.
 function sumTwoSmallestNums(arr) {
-  throw new Error('Not implemented');
+  // eslint-disable-next-line max-len
+  return arr.sort( (a, b) => a-b).slice( 0, 2).reduce((acum, elem) =>  acum +=elem);
 }
 
 // Create a function that takes a number and returns an array with the digits of the number in reverse order.
@@ -73,7 +87,7 @@ function sumTwoSmallestNums(arr) {
 //  reverseArr(623478) ➞ [8, 7, 4, 3, 2, 6]
 //  reverseArr(12345) ➞ [5, 4, 3, 2, 1]
 function reverseArr(number) {
-  throw new Error('Not implemented');
+  return `${number}`.split('').reverse().map(elem => +elem);
 }
 
 // Create a function that takes an array and returns the sum of all items in the array.
@@ -86,7 +100,7 @@ function reverseArr(number) {
 // Notes
 //  The item in an array can be another array.
 function sumArray(arr) {
-  throw new Error('Not implemented');
+  return arr.flat(Infinity).reduce((acum, elem) => acum +=elem, 0);
 }
 
 // Create a function that returns only strings with unique characters.
@@ -96,7 +110,10 @@ function sumArray(arr) {
 //  filterUnique(["88", "999", "989", "9988", "9898"]) ➞ []
 //  filterUnique(["ABCDE", "DDEB", "BED", "CCA", "BAC"]) ➞ ["ABCDE", "BED", "BAC"]
 function filterUnique(arr) {
-  throw new Error('Not implemented');
+  return arr.reduce((acum, elem, index) =>{
+    if(elem.length === new Set([...elem]).size) acum.push(elem); 
+    return acum;
+  }, []);
 }
 
 // Write a function that takes three arguments (x, y, z)
@@ -109,7 +126,16 @@ function filterUnique(arr) {
 //  The first two arguments will always be integers.
 //  The third argument is either a string or an integer.
 function matrix(x, y, z) {
-  throw new Error('Not implemented');
+  const arr = [];
+  for(let i =0 ; i<x ; i++){
+    arr.push([]);
+  }
+  arr.map (elem =>{
+    for(let i =0 ; i< y ; i++){
+      elem.push(z);
+    }
+  });
+  return arr;
 }
 
 // Write a function that returns all the elements in an array that are strictly greater than their adjacent left and right neighbors.
@@ -119,7 +145,11 @@ function matrix(x, y, z) {
 //  miniPeaks([1, 2, 1, 1, 3, 2, 5, 4, 4]) ➞ [2, 3, 5]
 //  miniPeaks([1, 2, 3, 4, 5, 6]) ➞ []
 function miniPeaks(arr) {
-  throw new Error('Not implemented');
+  const sumArr = [];
+  arr.reduce((acum, elem, index) =>{
+    if(elem > arr[index+1] && elem > arr[index-1]) sumArr.push(elem);
+  }, []);
+  return sumArr;
 }
 
 module.exports = {
