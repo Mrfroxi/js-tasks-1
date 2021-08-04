@@ -7,7 +7,7 @@
 // Notes
 //  Return an empty array if the object is empty.
 function toArray(obj) {
-  return [Object.keys(obj), Object.values(obj)];
+  return Object.entries(obj);
 }
 
 // Create the function that takes an array with objects and returns the sum of people's budgets.
@@ -24,7 +24,11 @@ function toArray(obj) {
 //   { name: "Martin",  age: 16, budget: 1600 }
 // ]) ➞ 62600
 function getBudgets(arr) {
-  throw new Error('Not implemented');
+  let sum = 0;
+  arr.forEach( (elem, index) =>{
+    sum +=  elem.budget;
+  });
+  return sum;
 }
 
 // Create a function to check whether the given parameter is an Object or not.
@@ -38,7 +42,7 @@ function getBudgets(arr) {
 // Notes
 //  Inputs may be null, primitive wrapper types, dates.
 function isObject(value) {
-  throw new Error('Not implemented');
+   return typeof value === 'object' && value !== null
 }
 
 // Create a function that takes a string of name and checks how much good is the given name. A preloaded dictionary of alphabet scores is available in the Code tab. Add up the letters of your name to get the total score.
@@ -65,8 +69,19 @@ function isObject(value) {
 //   'U': 11, 'V': 10, 'W': 10, 'X': 3, 'Y': 210, 'Z': 23};
 
 function nameScore(name) {
-  throw new Error('Not implemented');
+  const scores = {'A': 100, 'B': 14, 'C': 9, 'D': 28, 'E': 145, 'F': 12, 'G': 3,
+    'H': 10, 'I': 200, 'J': 100, 'K': 114, 'L': 100, 'M': 25,
+    'N': 450, 'O': 80, 'P': 2, 'Q': 12, 'R': 400, 'S': 113,
+    'T': 405, 'U': 11, 'V': 10, 'W': 10, 'X': 3, 'Y': 210, 'Z': 23};
+    let num =  name.split('').reduce((acum ,elem ) =>{
+      return  acum + scores[elem]
+    },0)
+    if(num <= 60) return "NOT TOO GOOD"
+    if(num >= 60 && num <= 300) return "PRETTY GOOD"
+    if(301 <= num  && num<= 599)  return "VERY GOOD"
+    if(num >= 600 ) return "THE BEST"
 }
+
 
 // Given an object of people and their ages, return how old the people would be after n years have passed. Use the absolute value of n.
 //
@@ -111,12 +126,22 @@ function nameScore(name) {
 //  Assume that everyone is immortal (it would be a bit grim if I told you to remove names once they reached 75).
 //  n should be a positive number because last time I checked, people don't tend to age backwards. Therefore, use the absolute value of n.
 function afterNYears(names, n) {
-  throw new Error('Not implemented');
+  n = Math.abs(n)
+  for (const value in names) {
+    names[value] =  names[value]+n;
+  }
+  return names;
 }
 //
 // Create a function that checks to see if two object arguments are equal to one another. Return true if the objects are equal, otherwise, return false.
 function isEqual(objOne, objTwo) {
-  throw new Error('Not implemented');
+  let objOneValue = Object.values(objOne)
+  let objTwoValue =Object.values(objTwo)
+  return  objOneValue.reduce(( acum, elem,index) =>{
+    if(elem === objTwoValue[index]) acum++
+    if(acum === objOneValue.length) return true 
+    return false
+  },0)
 }
 
 // Write a function that inverts the keys and values of an object.
@@ -131,7 +156,11 @@ function isEqual(objOne, objTwo) {
 //  invert({ "zebra": "koala", "horse": "camel" })
 //  ➞ { "koala": "zebra", "camel": "horse" }
 function invert(o) {
-  throw new Error('Not implemented');
+  return Object.entries(o).reduce((ret, entry) => {   
+    const [ key, value ] = entry;
+    ret[ value ] = key;
+    return ret;
+  }, {});
 }
 
 // You go to a jewelry shop and try to find the most expensive piece of jewelry. You write down the name of each piece of jewelry and its price.
@@ -154,7 +183,10 @@ function invert(o) {
 //  There will always be at least one item in the object.
 //  There will always be only one highest priced item (i.e. there will not be two items with the joint highest value).
 function mostExpensive(obj) {
-  throw new Error('Not implemented');
+  let valueArr = Object.values(obj)
+  let MostExpensive = Math.max.apply(Math ,valueArr );
+   let objKeyExpensive = Object.keys(obj).find(key => obj[key] === MostExpensive);
+  return `The most expensive one is the ${objKeyExpensive}`
 }
 
 // Write a function that transforms an array of characters into an array of objects, where:
@@ -166,7 +198,12 @@ function mostExpensive(obj) {
 //  toObj(["z"]) ➞ [{z: 122}]
 //  toObj([]) ➞ []
 function toObj(arr) {
-  throw new Error('Not implemented');
+  return arr.reduce((acum, elem, index)=>{
+    const obj ={};
+    acum.push(obj)
+    obj[elem] = elem.charCodeAt(0);  
+    return  acum;
+  }, []);
 }
 
 // In this challenge, you have to find the distance between two points placed on a Cartesian plane. Knowing the coordinates of both the points, you have to apply the Pythagorean theorem to find the distance between them.
@@ -182,7 +219,7 @@ function toObj(arr) {
 //  Take a look at the Resources tab if you need a refresher on the geometry related to this challenge.
 //  The "distance" is the shortest distance between the two points, or the straight line generated from a to b.
 function getDistance(a, b) {
-  throw new Error('Not implemented');
+  return Math.sqrt( ( a.x - b.x)**2 + (+a.y - +b.y)**2);
 }
 
 module.exports = {
